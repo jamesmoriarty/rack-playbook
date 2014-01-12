@@ -1,0 +1,22 @@
+- file: path=~/app state=directory
+  sudo: no
+
+- copy: src=app/Gemfile dest=~/app/Gemfile
+  sudo: no
+
+- copy: src=app/Gemfile.lock dest=~/app/Gemfile.lock
+  sudo: no
+
+- copy: src=app/config.ru dest=~/app/config.ru
+  sudo: no
+
+- copy: src=app/unicorn.conf.rb dest=~/app/unicorn.conf.rb
+  sudo: no
+
+- name: gem install bundler
+  action: shell gem install bundler
+  sudo: no
+
+- name: bundle
+  action: shell chdir=~/app bundle
+  sudo: no

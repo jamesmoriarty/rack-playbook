@@ -1,0 +1,4 @@
+- shell: gem install unicorn
+  sudo: no
+  notify:
+    - rbenv rehash
