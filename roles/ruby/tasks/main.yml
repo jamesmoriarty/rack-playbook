@@ -1,3 +1,7 @@
+- name: rbenv | init
+  raw: "eval \"$(rbenv init -)\""
+  sudo: no
+
 - name: rbenv | check ruby ruby_version installed
   shell: rbenv versions | grep {{ruby_version}}
   register: ruby_installed
@@ -14,4 +18,4 @@
   when: ruby_installed|failed
   sudo: no
   notify:
-    - rehash rbenv
+    - rbenv rehash

@@ -51,5 +51,3 @@
 
 - file: path=/usr/local/rbenv recurse=yes group=rbenv mode=775
   when: rbuild_present|failed
-
-
