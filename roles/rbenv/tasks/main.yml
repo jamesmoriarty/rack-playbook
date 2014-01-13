@@ -14,9 +14,11 @@
     - apr-util-devel
     - sqlite-devel
 
-- group: name=rbenv
+- name: rbenv | create group
+  group: name=rbenv
 
-- user: name=vagrant groups=rbenv append=true
+- name: rbenv | add current user
+  user: name=vagrant groups=rbenv append=true
 
 - name: rbenv | update rbenv repo
   git: repo=git://github.com/sstephenson/rbenv.git dest=/usr/local/rbenv version=v0.4.0
@@ -25,7 +27,7 @@
   file: path=/usr/local/bin/rbenv src=/usr/local/rbenv/bin/rbenv state=link
 
 - name: rbenv | add rbenv initialization to profile
-  template: src=rbenv.sh.j2 dest=/etc/profile.d/rbenv.sh owner=root group=root mode=0755
+  copy: src=rbenv.sh dest=/etc/profile.d/rbenv.sh owner=root group=rbenv mode=2755
 
 - name: rbenv | check ruby-build installed
   command: test -x /usr/local/bin/ruby-build
@@ -49,5 +51,10 @@
   file: path={{tempdir.stdout}} state=absent
   when: rbuild_present|failed
 
-- file: path=/usr/local/rbenv recurse=yes group=rbenv mode=775
+- file: path=/usr/local/rbenv/{{ item }} state=directory
+  with_items:
+    - shims
+    - versions
+
+- file: path=/usr/local/rbenv recurse=yes group=rbenv mode=2775
   when: rbuild_present|failed

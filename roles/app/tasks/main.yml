@@ -1,3 +1,5 @@
+# START COPY APP
+
 - file: path=~/app state=directory
   sudo: no
 
@@ -13,6 +15,10 @@
 - copy: src=app/unicorn.conf.rb dest=~/app/unicorn.conf.rb
   sudo: no
 
+# END COPY APP
+
+# BEFORE RESTART
+
 - name: gem install bundler
   action: shell gem install bundler
   sudo: no
@@ -23,18 +29,20 @@
   notify:
     - rbenv rehash
 
+# END RESTART
+
 - name: ensure unicorn running
   raw: "kill -0 $(cat /tmp/app.unicorn.pid)"
   sudo: no
   register: result
   ignore_errors: yes
 
-- name: start unicorn
-  shell: chdir=~/app unicorn -D -c unicorn.conf.rb config.ru
-  sudo: no
-  when: result|failed
-
 - name: restart unicorn
   raw: "kill -HUP $(cat /tmp/app.unicorn.pid)"
   sudo: no
   when: result|success
+
+- name: start unicorn
+  shell: chdir=~/app unicorn -D -c unicorn.conf.rb config.ru
+  sudo: no
+  when: result|failed

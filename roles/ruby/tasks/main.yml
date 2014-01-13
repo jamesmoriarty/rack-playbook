@@ -1,5 +1,4 @@
-- name: rbenv | init
-  raw: "eval \"$(rbenv init -)\""
+- shell: 'eval "$(/usr/local/rbenv/bin/rbenv init -)"'
   sudo: no
 
 - name: rbenv | check ruby ruby_version installed

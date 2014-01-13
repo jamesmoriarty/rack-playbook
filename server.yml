@@ -5,5 +5,6 @@
     ruby_version: 2.0.0-p353
   roles:
     - selinux
-    - app
-    - nginx
+    - ruby
+    #- app
+    #- nginx
