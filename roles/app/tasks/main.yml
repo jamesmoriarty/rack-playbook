@@ -46,3 +46,6 @@
   shell: chdir=~/app unicorn -D -c unicorn.conf.rb config.ru
   sudo: no
   when: result|failed
+
+- name: test app running
+  local_action: command curl 127.0.0.1:8080 | grep 'Hello World'

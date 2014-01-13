@@ -1,6 +1,3 @@
-- shell: 'eval "$(/usr/local/rbenv/bin/rbenv init -)"'
-  sudo: no
-
 - name: rbenv | check ruby ruby_version installed
   shell: rbenv versions | grep {{ruby_version}}
   register: ruby_installed

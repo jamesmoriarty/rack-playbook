@@ -56,5 +56,6 @@
     - shims
     - versions
 
-- file: path=/usr/local/rbenv recurse=yes group=rbenv mode=2775
+# TODO - pending https://github.com/sstephenson/ruby-build/issues/400
+- file: path=/usr/local/rbenv recurse=yes group=rbenv mode=777  #2775
   when: rbuild_present|failed
