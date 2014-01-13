@@ -4,6 +4,10 @@
 
 - service: name=nginx enabled=yes
 
+- copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root
+  notify:
+    - restart nginx
+
 - copy: src=app.conf dest=/etc/nginx/conf.d/app.conf owner=root group=root
   notify:
     - restart nginx
