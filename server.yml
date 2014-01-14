@@ -9,4 +9,4 @@
     current_path:  "{{ deploy_root }}/current"
   roles:
     - selinux
-    - app
+    - rack_app
