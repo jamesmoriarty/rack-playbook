@@ -4,8 +4,6 @@
   register: timestamp
   sudo: no
 
-- debug: msg="timestamp={{ timestamp.stdout }}"
-
 - file: path={{ item }} state=directory
   sudo: no
   with_items:
@@ -16,7 +14,7 @@
   register: release_path
   sudo: no
 
-- debug: msg="release_path={{ release_path }}"
+# START COPY APP
 
 - copy: src=Gemfile dest={{ release_path.path }}/Gemfile
   sudo: no
