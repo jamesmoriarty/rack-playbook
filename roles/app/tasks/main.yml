@@ -67,6 +67,6 @@
   when: result|success
 
 - name: start unicorn
-  shell: chdir={{ current_path }} unicorn -D -c {{ current_path }}/unicorn.conf.rb {{ current_path }}/config.ru
+  shell: unicorn -D -c {{ current_path }}/unicorn.conf.rb {{ current_path }}/config.ru
   sudo: no
   when: result|failed
