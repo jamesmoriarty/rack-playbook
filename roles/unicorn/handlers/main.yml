@@ -1,0 +1,17 @@
+- name: restart unicorn
+  raw: "kill -0 $(cat {{ unicorn_pid_path }})"
+  register: result
+  changed_when: result|success or result|failed
+  ignore_errors: yes
+  notify:
+    - start unicorn
+    - reload unicorn
+
+- name: reload unicorn
+  raw: "kill -HUP $(cat {{ unicorn_pid_path }})"
+  when: result|success
+
+- name: start unicorn
+  shell: unicorn -D -c {{ current_path }}/unicorn.conf.rb {{ current_path }}/config.ru
+  when: result|failed
+

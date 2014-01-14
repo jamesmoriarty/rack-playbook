@@ -5,6 +5,10 @@
   vars:
     ruby_version:   2.0.0-p353
 
+    deploy_cmds: [
+      "gem list bundler -i | grep true || gem install bundler",
+      "bundle"
+    ]
     deploy_root:    "/home/{{ ansible_ssh_user }}/app"
     releases_path:  "{{ deploy_root }}/releases"
     current_path:   "{{ deploy_root }}/current"
