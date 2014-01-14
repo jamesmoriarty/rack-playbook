@@ -5,7 +5,7 @@
   vars:
     ruby_version:   2.0.0-p353
 
-    deploy_root:    "~/app"
+    deploy_root:    "/home/{{ ansible_ssh_user }}/app"
     releases_path:  "{{ deploy_root }}/releases"
     current_path:   "{{ deploy_root }}/current"
 
@@ -13,5 +13,4 @@
     unicorn_log_path:    "/tmp/unicorn.log"
     unicorn_pid_path:    "/tmp/unicorn.pid"
   roles:
-    - selinux
     - rack_app
