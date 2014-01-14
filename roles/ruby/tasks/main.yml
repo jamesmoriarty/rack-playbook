@@ -9,6 +9,5 @@
 
 - name: rbenv | set global ruby {{ruby_version}}
   shell: rbenv global {{ruby_version}}
-  when: ruby_installed|failed
   notify:
     - rbenv rehash
