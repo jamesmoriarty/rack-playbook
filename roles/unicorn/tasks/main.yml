@@ -1,4 +1,11 @@
+- name: check unicorn installed
+  shell: gem list unicorn -i | grep true
+  register: unicorn_installed
+  ignore_errors: yes
+  sudo: no
+
 - shell: gem install unicorn
   sudo: no
+  when: unicorn_installed|failed
   notify:
     - rbenv rehash

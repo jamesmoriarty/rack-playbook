@@ -1,33 +1,59 @@
 # START COPY APP
 
-- file: path=~/app state=directory
+- local_action: command date +%s
+  register: timestamp
   sudo: no
 
-- copy: src=app/Gemfile dest=~/app/Gemfile
+- debug: msg="timestamp={{ timestamp.stdout }}"
+
+- file: path={{ item }} state=directory
+  sudo: no
+  with_items:
+    - "{{ deploy_root }}"
+    - "{{ releases_path }}"
+
+- file: path="{{ releases_path }}/{{ timestamp.stdout }}" state=directory
+  register: release_path
   sudo: no
 
-- copy: src=app/Gemfile.lock dest=~/app/Gemfile.lock
+- debug: msg="release_path={{ release_path }}"
+
+- copy: src=Gemfile dest={{ release_path.path }}/Gemfile
   sudo: no
 
-- copy: src=app/config.ru dest=~/app/config.ru
+- copy: src=Gemfile.lock dest={{ release_path.path }}/Gemfile.lock
   sudo: no
 
-- copy: src=app/unicorn.conf.rb dest=~/app/unicorn.conf.rb
+- copy: src=config.ru dest={{ release_path.path }}/config.ru
+  sudo: no
+
+- template: src=unicorn.conf.rb dest={{ release_path.path }}/unicorn.conf.rb
   sudo: no
 
 # END COPY APP
 
 # BEFORE RESTART
 
-- name: gem install bundler
-  action: shell gem install bundler
+- name: check bundler installed
+  shell: gem list bundler -i | grep true
+  register: bundler_installed
+  ignore_errors: yes
   sudo: no
 
-- name: bundle
-  action: shell chdir=~/app bundle
+- name: gem install bundler
+  shell: gem install bundler
   sudo: no
+  when: bundler_installed|failed
+
+- name: bundle
+  action: shell chdir={{ release_path.path }} bundle
+  sudo: no
+  when: bundler_installed|success
   notify:
     - rbenv rehash
+
+- file: path={{ current_path }} src={{ release_path.path }} state=link
+  sudo: no
 
 # END RESTART
 
@@ -43,9 +69,6 @@
   when: result|success
 
 - name: start unicorn
-  shell: chdir=~/app unicorn -D -c unicorn.conf.rb config.ru
+  shell: chdir={{ current_path }} unicorn -D -c {{ current_path }}/unicorn.conf.rb {{ current_path }}/config.ru
   sudo: no
   when: result|failed
-
-- name: test app running
-  local_action: command curl 127.0.0.1:8080 | grep 'Hello World'
