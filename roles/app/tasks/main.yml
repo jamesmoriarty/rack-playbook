@@ -2,31 +2,24 @@
 
 - local_action: command date +%s
   register: timestamp
-  sudo: no
 
 - file: path={{ item }} state=directory
-  sudo: no
   with_items:
     - "{{ deploy_root }}"
     - "{{ releases_path }}"
 
 - file: path="{{ releases_path }}/{{ timestamp.stdout }}" state=directory
   register: release_path
-  sudo: no
 
 # START COPY APP
 
 - copy: src=Gemfile dest={{ release_path.path }}/Gemfile
-  sudo: no
 
 - copy: src=Gemfile.lock dest={{ release_path.path }}/Gemfile.lock
-  sudo: no
 
 - copy: src=config.ru dest={{ release_path.path }}/config.ru
-  sudo: no
 
 - template: src=unicorn.conf.rb dest={{ release_path.path }}/unicorn.conf.rb
-  sudo: no
 
 # END COPY APP
 
@@ -36,37 +29,30 @@
   shell: gem list bundler -i | grep true
   register: bundler_installed
   ignore_errors: yes
-  sudo: no
 
 - name: gem install bundler
   shell: gem install bundler
-  sudo: no
   when: bundler_installed|failed
 
 - name: bundle
   action: shell chdir={{ release_path.path }} bundle
-  sudo: no
   when: bundler_installed|success
   notify:
     - rbenv rehash
 
 - file: path={{ current_path }} src={{ release_path.path }} state=link
-  sudo: no
 
 # END RESTART
 
 - name: ensure unicorn running
   raw: "kill -0 $(cat /tmp/app.unicorn.pid)"
-  sudo: no
   register: result
   ignore_errors: yes
 
 - name: restart unicorn
   raw: "kill -HUP $(cat /tmp/app.unicorn.pid)"
-  sudo: no
   when: result|success
 
 - name: start unicorn
   shell: unicorn -D -c {{ current_path }}/unicorn.conf.rb {{ current_path }}/config.ru
-  sudo: no
   when: result|failed

@@ -1,5 +1,6 @@
 - name: rbenv | install build depends
   yum: pkg={{ item }} state=present
+  sudo: yes
   with_items:
     - gcc
     - gcc-c++
@@ -14,12 +15,12 @@
     - apr-util-devel
     - sqlite-devel
 
-- name: rbenv | update rbenv repo
-  git: repo=git://github.com/sstephenson/rbenv.git dest=.rbenv version=v0.4.0
-  sudo: no
+- name: rbenv | clone rbenv repo
+  git: update=no repo=git://github.com/sstephenson/rbenv.git dest=.rbenv version=v0.4.0
 
 - name: rbenv | add rbenv initialization to profile
   copy: src=rbenv.sh dest=/etc/profile.d/rbenv.sh
+  sudo: yes
 
 - name: rbenv | check ruby-build installed
   command: test -x /usr/local/bin/ruby-build
@@ -37,6 +38,7 @@
 
 - name: rbenv | install ruby-build
   command: ./install.sh chdir={{tempdir.stdout}}/ruby-build
+  sudo: yes
   when: rbuild_present|failed
 
 - name: rbenv | remove temporary directory
