@@ -6,8 +6,8 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.cache.auto_detect = true if Vagrant.has_plugin?("vagrant-cachier")
-
-  config.vm.box = "opscode-centos-6.4"
+  config.vm.box_url = "http://10.0.0.209/vm/opscode_centos-6.5_provisionerless.box"
+  config.vm.box = "opscode-centos-6.5"
 
   config.vm.network :forwarded_port, guest: 80, host: 8080
 

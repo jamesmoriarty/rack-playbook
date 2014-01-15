@@ -17,4 +17,5 @@
     unicorn_log_path:    "/tmp/unicorn.log"
     unicorn_pid_path:    "/tmp/unicorn.pid"
   roles:
+    - common
     - rack_app
