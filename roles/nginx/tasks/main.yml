@@ -1,7 +1,7 @@
 - yum: pkg=nginx state=present
   sudo: yes
 
-- service: name=nginx enabled=yes
+- service: name=nginx enabled=yes state=started
   sudo: yes
 
 - file: path=/etc/nginx/conf.d/default.conf state=absent
