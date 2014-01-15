@@ -9,16 +9,16 @@
 - file: path="{{ releases_path }}/{{ timestamp.stdout }}" state=directory
   register: release_path
 
-- copy: src=Gemfile dest={{ release_path.path }}/Gemfile
-- copy: src=Gemfile.lock dest={{ release_path.path }}/Gemfile.lock
-- copy: src=config.ru dest={{ release_path.path }}/config.ru
+- git: repo={{ rackup_repo }} version={{ rackup_version }} dest={{ release_path.path }}
 
-- template: src=unicorn.conf.rb dest={{ release_path.path }}/unicorn.conf.rb
+- template: src=unicorn.conf.rb dest="{{ release_path.path }}/unicorn.conf.rb"
 
 - shell: chdir={{ release_path.path }} {{ item }}
-  with_items: deploy_cmds
+  with_items: rackup_cmds
+  environment: env
+  notify:
+    - rbenv rehash
 
 - file: path={{ current_path }} src={{ release_path.path }} state=link
   notify:
-    - rbenv rehash
     - restart unicorn

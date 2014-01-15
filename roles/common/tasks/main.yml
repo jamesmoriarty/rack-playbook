@@ -4,13 +4,14 @@
 
 - name: install tools
   yum: name={{ item }} state=present
-  with_items:
-    - git
-    - ncdu
-    - vim
-    - htop
+  with_items: common_packages
   sudo: yes
 
 - name: disable selinux
   selinux: state=disabled
   sudo: yes
+
+- name: add known hosts
+  shell: ssh-keyscan -t rsa,dsa {{ item }} 2>&1 | sort -u - ~/.ssh/known_hosts > ~/.ssh/known_hosts
+  with_items:
+    - github.com

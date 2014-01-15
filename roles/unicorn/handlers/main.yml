@@ -14,4 +14,4 @@
 - name: start unicorn
   shell: unicorn -D -c {{ current_path }}/unicorn.conf.rb {{ current_path }}/config.ru
   when: result|failed
-
+  environment: env

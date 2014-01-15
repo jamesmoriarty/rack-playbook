@@ -1,0 +1,15 @@
+- name: install PostgreSQL server 9.3
+  yum: name=postgresql93-server state=installed
+  sudo: yes
+
+- name: initdb
+  command: service postgresql-9.3 initdb creates=/var/lib/pgsql/9.3/data/pg_hba.conf
+  sudo: yes
+
+- name: set up pg_hba.conf
+  template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/9.3/data/pg_hba.conf owner=postgres group=postgres
+  sudo: yes
+
+- name: enable and start the service
+  service: name=postgresql-9.3 enabled=yes state=started
+  sudo: yes
