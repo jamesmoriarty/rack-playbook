@@ -1,0 +1,21 @@
+- hosts: all
+  sudo: no
+  roles:
+    - common
+    - rackup
+  vars_files:
+    - vars/main.yml
+  vars:
+    common_packages:
+      - git
+      - ncdu
+      - vim
+      - htop
+
+    ruby_version:   2.0.0-p353
+
+    rackup_version: master
+    rackup_repo:    https://github.com/jamesmoriarty/rackup.git
+    rackup_cmds:
+      - "bundle"
+

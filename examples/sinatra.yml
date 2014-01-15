@@ -8,7 +8,6 @@
       - ncdu
       - vim
       - htop
-      - libpqxx-devel
 
 - hosts: db
   sudo: no
@@ -20,18 +19,22 @@
   vars_files:
     - vars/main.yml
   vars:
+    common_packages:
+      - libpqxx-devel
+
     ruby_version:   2.0.0-p353
     rackup_version: f54da8e38e7d03838bb3421578aa0a6dd6465f9f
     rackup_repo:    https://github.com/jamesmoriarty/simple-sinatra-sequel-blog.git
     rackup_cmds:
-      - 'psql -U postgres {{ db }} --command="SELECT version();" >/dev/null 2>&1 || createdb -U postgres {{ db }}'
+      - 'psql -U postgres blog --command="SELECT version();" >/dev/null 2>&1 || createdb -U postgres blog'
       - "gem list bundler -i | grep true || gem install bundler"
       - "bundle config build.pg --with-pg=/usr/pgsql-9.3"
       - "bundle"
-    db: blog
+
     env:
-      DATABASE_URL: "postgres://postgres@127.0.0.1/{{ db }}"
+      DATABASE_URL: "postgres://postgres@127.0.0.1/blog"
       ADMIN_USERNAME: admin
       ADMIN_PASSWORD: password
   roles:
+    - common
     - rackup

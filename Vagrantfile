@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.inventory_path = "hosts"
-    ansible.playbook       = "server.yml"
+    ansible.playbook       = "examples/rackup.yml"
     ansible.sudo           = true
     ansible.verbose        = "v"
   end
