@@ -20,5 +20,6 @@
     - rbenv rehash
 
 - file: path={{ current_path }} src={{ release_path.path }} state=link
+  environment: env
   notify:
     - restart unicorn

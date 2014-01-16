@@ -9,7 +9,7 @@ Intended to deploy compatable rack apps.
 - Rbenv
 - Unicorn
 - Nginx
- 
+
 Capistrano like directory structure.
 
 ```
@@ -22,3 +22,12 @@ rack_app/
     │   ├── Gemfile.lock
     │   └── unicorn.conf.rb
 ```
+
+Test
+----
+
+Pending server spec.
+
+    vagrant destroy -f && vagrant up && ansible-playbook -i hosts
+
+

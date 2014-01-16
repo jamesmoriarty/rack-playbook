@@ -1,11 +1,11 @@
 ---
-- name: Download EPEL Repo
+- name: download epel repo
   get_url: url=http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm dest=/tmp/epel-release-6-8.noarch.rpm
 
-- name: Install EPEL Repo
+- name: install epel repo
   command: rpm -ivh /tmp/epel-release-6-8.noarch.rpm creates=/etc/yum.repos.d/epel.repo
   sudo: yes
 
-- name: download PGDG repo RPM
+- name: install pgdg repo
   yum: name=http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-centos93-9.3-1.noarch.rpm state=present
   sudo: yes

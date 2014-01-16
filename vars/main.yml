@@ -6,6 +6,3 @@ current_path:   "{{ deploy_root }}/current"
 unicorn_socket_path: "/tmp/unicorn.socket"
 unicorn_log_path:    "/tmp/unicorn.log"
 unicorn_pid_path:    "/tmp/unicorn.pid"
-
-env:
-  RACK_ENV: development

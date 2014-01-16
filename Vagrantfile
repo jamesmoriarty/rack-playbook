@@ -1,22 +1,17 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-VAGRANTFILE_API_VERSION = "2"
 
-IP = "192.168.111.222"
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure("2") do |config|
   config.vm.box_url = "http://10.0.0.209/vm/opscode_centos-6.5_provisionerless.box"
-  config.vm.box     = "opscode-centos-6.5"
+  config.vm.box = "opscode-centos-6.5"
 
-  config.vm.network :forwarded_port, guest: 80, host: 8080
-  config.vm.network :private_network, ip: IP
+  { "db" => 24, "app" => 25}.each_pair do |type, num|
+    config.vm.define type, primary: true do |box|
+      ip = "192.168.100.#{num}"
 
-  config.cache.auto_detect = true if Vagrant.has_plugin?("vagrant-cachier")
-
-  config.vm.provision "ansible" do |ansible|
-    ansible.inventory_path = "hosts"
-    ansible.playbook       = "examples/rackup.yml"
-    ansible.sudo           = true
-    ansible.verbose        = "v"
+      box.vm.network :private_network, ip: ip
+      box.vm.network :forwarded_port, guest: 22, host: "40#{num}".to_i
+    end
   end
 end
+

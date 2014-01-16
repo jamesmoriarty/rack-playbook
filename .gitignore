@@ -1,3 +1,4 @@
 Gemfile*
 cache/
 .vagrant/
+vagrant_ansible_inventory_*
