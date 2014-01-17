@@ -4,11 +4,43 @@ Ansible Rack Playbook
 Description
 -----------
 
-Intended to deploy compatable rack apps.
+Deploy compatable rack apps.
 
-- Rbenv
+Stack
+-----
+
 - Unicorn
 - Nginx
+
+Example
+-------
+
+```
+- hosts: app
+  sudo: no
+  roles:
+    - common
+    - postgresql
+    - memcached
+    - rackup
+  vars_files:
+    - vars/main.yml
+  vars:
+    ruby_version:   2.0.0-p353
+
+    rackup_repo:    git@github.com:example/example.git
+    rackup_version: master
+    rackup_cmds:
+      - "gem install bundler"
+      - "bundle config build.pg --with-pg=/usr/pgsql-9.3"
+      - "bundle install --without test ci development"
+      - "bundle exec rake db:create"
+      - "bundle exec rake db:migrate"
+      - "exec rake assets:precompile"
+
+    env:
+      RACK_ENV: production
+```
 
 Capistrano like directory structure.
 
