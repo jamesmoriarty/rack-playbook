@@ -1,8 +1,11 @@
 ---
-deploy_root:    "/home/{{ ansible_ssh_user }}/app"
-releases_path:  "{{ deploy_root }}/releases"
-current_path:   "{{ deploy_root }}/current"
+common_packages:
+  - fail2ban
+  - git
+  - ncdu
+  - vim
+  - htop
+  - libpqxx-devel
 
-unicorn_socket_path: "/tmp/unicorn.socket"
-unicorn_log_path:    "/tmp/unicorn.log"
-unicorn_pid_path:    "/tmp/unicorn.pid"
+common_known_hosts:
+  - github.com

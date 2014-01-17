@@ -2,12 +2,8 @@
   sudo: no
   roles:
     - common
-  vars:
-    common_packages:
-      - git
-      - ncdu
-      - vim
-      - htop
+  vars_files:
+    - vars/main.yml
 
 - hosts: db
   sudo: no
@@ -16,16 +12,12 @@
 
 - hosts: app
   sudo: no
+  roles:
+    - common
+    - rackup
   vars_files:
     - vars/main.yml
   vars:
-    dbuser: "postgres"
-    dbname: "blog"
-    dbhost: "{{ hostvars[groups['db'][0]].ansible_all_ipv4_addresses[-1] }}"
-
-    common_packages:
-      - libpqxx-devel
-
     ruby_version:   2.0.0-p353
 
     rackup_version: f54da8e38e7d03838bb3421578aa0a6dd6465f9f
@@ -36,10 +28,14 @@
       - "bundle config build.pg --with-pg=/usr/pgsql-9.3"
       - "bundle"
 
+    common_packages: [ libpqxx-devel ]
+    common_known_hosts: [ github.com ]
+
+    dbuser: "postgres"
+    dbname: "blog"
+    dbhost: "{{ hostvars[groups['db'][0]].ansible_all_ipv4_addresses[-1] }}"
+
     env:
       DATABASE_URL: "postgres://{{ dbuser }}@{{ dbhost }}/{{ dbname }}"
       ADMIN_USERNAME: admin
       ADMIN_PASSWORD: password
-  roles:
-    - common
-    - rackup

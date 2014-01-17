@@ -5,6 +5,11 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://10.0.0.209/vm/opscode_centos-6.5_provisionerless.box"
   config.vm.box = "opscode-centos-6.5"
 
+  config.vm.provider "virtualbox" do |vm|
+    vm.cpu_count  = 2
+    vm.memory     = 512
+  end
+
   { "db" => 24, "app" => 25}.each_pair do |type, num|
     config.vm.define type, primary: true do |box|
       ip = "192.168.100.#{num}"
