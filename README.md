@@ -36,7 +36,7 @@ Example
       - "bundle install --without test ci development"
       - "bundle exec rake db:create"
       - "bundle exec rake db:migrate"
-      - "exec rake assets:precompile"
+      - "bundle exec rake assets:precompile"
 
     env:
       RACK_ENV: production
