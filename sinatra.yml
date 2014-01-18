@@ -14,15 +14,15 @@
   sudo: no
   roles:
     - common
-    - rackup
+    - deploy
   vars_files:
     - vars/main.yml
   vars:
     ruby_version:   2.0.0-p353
 
-    rackup_version: f54da8e38e7d03838bb3421578aa0a6dd6465f9f
-    rackup_repo:    https://github.com/jamesmoriarty/simple-sinatra-sequel-blog.git
-    rackup_cmds:
+    deploy_version: f54da8e38e7d03838bb3421578aa0a6dd6465f9f
+    deploy_repo:    https://github.com/jamesmoriarty/simple-sinatra-sequel-blog.git
+    deploy_cmds:
       - 'psql --host={{ dbhost }} --username={{ dbuser }} {{ dbname }} --command="SELECT version();" >/dev/null 2>&1 || createdb --host={{ dbhost }} --username={{ dbuser }} {{ dbname }}'
       - "gem list bundler -i | grep true || gem install bundler"
       - "bundle config build.pg --with-pg=/usr/pgsql-9.3"

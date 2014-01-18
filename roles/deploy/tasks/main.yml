@@ -1,0 +1,27 @@
+- local_action: command date +%s
+  register: timestamp
+
+- file: path={{ item }} state=directory recurse=yes mode=755
+  with_items:
+    - "/home/{{ deploy_user }}"
+    - "{{ deploy_root }}"
+    - "{{ deploy_releases_path }}"
+    - "{{ deploy_shared_path }}"
+
+- file: path="{{ deploy_releases_path }}/{{ timestamp.stdout }}" state=directory mode=701
+  register: deploy_release_path
+
+- git: repo={{ deploy_repo }} version={{ deploy_version }} dest={{deploy_release_path.path }} update=yes depth=1
+
+- template: src=unicorn.conf.rb dest="{{ deploy_release_path.path }}/unicorn.conf.rb"
+
+- shell: chdir={{ deploy_release_path.path }} {{ item }}
+  with_items: deploy_cmds
+  environment: env
+  notify:
+    - rbenv rehash
+
+- file: path={{ deploy_current_release_path }} src={{ deploy_release_path.path }} state=link
+  environment: env
+  notify:
+    - restart unicorn

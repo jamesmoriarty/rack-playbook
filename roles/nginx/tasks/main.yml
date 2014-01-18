@@ -14,7 +14,7 @@
   notify:
     - restart nginx
 
-- template: src=unicorn.conf dest=/etc/nginx/conf.d/{{ ansible_ssh_user }}.conf
+- template: src=unicorn.conf dest=/etc/nginx/conf.d/{{ deploy_user }}.conf
   sudo: yes
   notify:
     - restart nginx

@@ -1,5 +1,5 @@
 ---
 dependencies:
-  - { role: rackup_vars }
+  - { role: deploy_vars }
   - { role: nginx }
   - { role: unicorn }

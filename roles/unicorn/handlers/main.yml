@@ -12,6 +12,6 @@
   when: result|success
 
 - name: start unicorn
-  shell: unicorn -D -c {{ current_path }}/unicorn.conf.rb {{ current_path }}/config.ru
+  shell: unicorn -D -c {{ deploy_current_release_path }}/unicorn.conf.rb {{ deploy_current_release_path }}/config.ru
   when: result|failed
   environment: env

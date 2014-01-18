@@ -47,5 +47,5 @@
 
 - name: rbenv | link to cache directory
   # file: path=/home/vagrant/.rbenv/versions src=/vagrant/tmp/vagrant/rbenv/versions state=link force=yes
-  raw: "rm -fr /home/vagrant/.rbenv/versions; ln -s /vagrant/cache/rbenv/versions /home/{{ ansible_ssh_user }}/.rbenv/versions"
+  raw: "rm -fr /home/vagrant/.rbenv/versions; ln -s /vagrant/cache/rbenv/versions /home/{{ deploy_user }}/.rbenv/versions"
   when: rbuild_present|failed

@@ -1,4 +1,4 @@
 ---
 dependencies:
   - { role: epel }
-  - { role: rackup_vars }
+  - { role: deploy_vars }

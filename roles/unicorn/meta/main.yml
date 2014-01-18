@@ -1,4 +1,4 @@
 ---
 dependencies:
   - { role: ruby }
-  - { role: rackup_vars }
+  - { role: deploy_vars }

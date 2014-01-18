@@ -1,0 +1,10 @@
+---
+deploy_user:                  "{{ ansible_ssh_user }}"
+deploy_root:                  "/home/{{ deploy_user }}/app"
+deploy_releases_path:         "{{ deploy_root }}/releases"
+deploy_current_release_path:  "{{ deploy_root }}/current"
+deploy_shared_path:           "{{ deploy_root }}/shared"
+
+unicorn_socket_path: "/tmp/unicorn.socket"
+unicorn_log_path:    "/tmp/unicorn.log"
+unicorn_pid_path:    "/tmp/unicorn.pid"
