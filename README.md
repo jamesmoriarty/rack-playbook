@@ -28,9 +28,9 @@ Example
   vars:
     ruby_version:   2.0.0-p353
 
-    rackup_repo:    git@github.com:example/example.git
-    rackup_version: master
-    rackup_cmds:
+    deploy_repo:    git@github.com:example/example.git
+    deploy_version: master
+    deploy_cmds:
       - "gem install bundler"
       - "bundle config build.pg --with-pg=/usr/pgsql-9.3"
       - "bundle install --without test ci development"
