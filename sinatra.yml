@@ -13,7 +13,6 @@
 - hosts: app
   sudo: no
   roles:
-    - common
     - deploy
   vars_files:
     - vars/main.yml
@@ -27,9 +26,6 @@
       - "gem list bundler -i | grep true || gem install bundler"
       - "bundle config build.pg --with-pg=/usr/pgsql-9.3"
       - "bundle"
-
-    common_packages: [ libpqxx-devel ]
-    common_known_hosts: [ github.com ]
 
     dbuser: "postgres"
     dbname: "blog"
