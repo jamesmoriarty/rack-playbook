@@ -24,4 +24,5 @@
 - file: path={{ deploy_current_release_path }} src={{ deploy_release_path.path }} state=link
   environment: env
   notify:
-    - restart unicorn
+    - up unicorn
+    - reload unicorn

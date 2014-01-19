@@ -1,0 +1,5 @@
+- copy: src=locomote.repo dest=/etc/yum.repos.d/locomote.repo
+  sudo: yes
+
+- yum: pkg=runit state=installed
+  sudo: yes

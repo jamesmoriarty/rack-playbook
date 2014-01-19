@@ -1,0 +1,11 @@
+#!/bin/bash
+
+{% for var, value in env.iteritems() %}
+export {{ var }}="{{ value }}"
+{% endfor %}
+
+exec 2>&1
+exec chpst -u {{ deploy_user }} \
+  /home/{{ deploy_user }}/.rbenv/shims/unicorn \
+    -c {{ deploy_current_release_path }}/unicorn.conf.rb \
+    {{ deploy_current_release_path }}/config.ru

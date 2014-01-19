@@ -1,4 +1,5 @@
 ---
 dependencies:
-  - { role: ruby }
   - { role: deploy_vars }
+  - { role: ruby }
+  - { role: runit }

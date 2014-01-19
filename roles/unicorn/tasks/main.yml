@@ -7,3 +7,14 @@
   when: unicorn_installed|failed
   notify:
     - rbenv rehash
+
+- name: create service directory
+  file: path=/etc/service/app recurse=yes state=directory owner={{ deploy_user }} group={{ deploy_user }}
+  sudo: yes
+
+- name: create service run script
+  template: src=runit/run dest=/etc/service/app/run mode=0755 owner={{ deploy_user }} group={{ deploy_user }}
+
+- name: change service control directory owner
+  file: path=/etc/service/app/supervise recurse=yes owner={{ deploy_user }} group={{ deploy_user }}
+  sudo: yes
