@@ -2,18 +2,23 @@
   yum: pkg={{ item }} state=present
   sudo: yes
   with_items:
-    - gcc
-    - gcc-c++
-    - make
-    - automake
-    - autoconf
-    - curl-devel
-    - openssl-devel
-    - zlib-devel
-    - httpd-devel
     - apr-devel
     - apr-util-devel
+    - autoconf
+    - automake
+    - curl-devel
+    - gcc
+    - gcc-c++
+    - glibc-headers
+    - httpd-devel
+    - libyaml-devel
+    - make
+    - openssl-devel
+    - readline
+    - readline-devel
     - sqlite-devel
+    - zlib
+    - zlib-devel
 
 - name: rbenv | clone rbenv repo
   git: depth=1 update=no repo=git://github.com/sstephenson/rbenv.git dest=.rbenv version=v0.4.0
@@ -45,7 +50,7 @@
   file: path={{tempdir.stdout}} state=absent
   when: rbuild_present|failed
 
-- name: rbenv | link to cache directory
-  # file: path=/home/vagrant/.rbenv/versions src=/vagrant/tmp/vagrant/rbenv/versions state=link force=yes
-  raw: "rm -fr /home/vagrant/.rbenv/versions; ln -s /vagrant/cache/rbenv/versions /home/{{ deploy_user }}/.rbenv/versions"
-  when: rbuild_present|failed
+# - name: rbenv | link to cache directory
+#   # file: path=/home/vagrant/.rbenv/versions src=/vagrant/tmp/vagrant/rbenv/versions state=link force=yes
+#   raw: "rm -fr /home/vagrant/.rbenv/versions; ln -s /vagrant/cache/rbenv/versions /home/{{ deploy_user }}/.rbenv/versions"
+#   when: rbuild_present|failed
