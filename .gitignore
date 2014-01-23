@@ -1,3 +1,5 @@
+roles/nginx/files/*.key
+roles/nginx/files/*.pem
 rails.yml
 Gemfile*
 cache/
