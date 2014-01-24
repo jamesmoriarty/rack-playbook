@@ -1,7 +1,6 @@
 #!/bin/bash
 
 export HOME=$(su --login {{ deploy_user }} --command='echo "$HOME"')
-
 {% for var, value in env.iteritems() %}
 export {{ var }}="{{ value }}"
 {% endfor %}
