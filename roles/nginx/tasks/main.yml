@@ -1,9 +1,6 @@
 - yum: pkg=nginx state=present
   sudo: yes
 
-- service: name=nginx enabled=yes state=started
-  sudo: yes
-
 - name: remove default.conf
   file: path=/etc/nginx/conf.d/default.conf state=absent
   notify:
@@ -33,4 +30,7 @@
   template: src=unicorn.conf dest=/etc/nginx/conf.d/{{ deploy_user }}.conf
   notify:
     - restart nginx
+  sudo: yes
+
+- service: name=nginx enabled=yes state=started
   sudo: yes
