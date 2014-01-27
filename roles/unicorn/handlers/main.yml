@@ -5,7 +5,7 @@
   command: /sbin/sv start app
 
 - name: reload unicorn
-  command: /sbin/sv 1 app
+  command: /sbin/sv hup app
 
 - name: stop unicorn
   command: /sbin/sv stop app
