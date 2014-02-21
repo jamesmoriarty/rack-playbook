@@ -74,3 +74,7 @@ Pending server spec.
     vagrant destroy -f && vagrant up && ansible-playbook -i hosts
 
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/jamesmoriarty/rack-playbook/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
