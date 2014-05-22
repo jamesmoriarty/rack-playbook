@@ -1,0 +1,28 @@
+- name: check if iptables is installed
+  command: iptables --version
+  register: iptables_installed
+  ignore_errors: yes
+  sudo: yes
+
+- name: check to see if there is an iptables config file
+  file: path=/etc/sysconfig/iptables
+  ignore_errors: True
+  register: iptables_exists
+  when: iptables_installed|success
+  sudo: yes
+
+- name: ensure iptables config file exists
+  shell: /sbin/service iptables save creates=/etc/sysconfig/iptables
+  when: iptables_installed|success
+  sudo: yes
+
+- name: open iptables ports
+  lineinfile: dest=/etc/sysconfig/iptables
+    regexp="^-A INPUT -p {{item.protocol}} -m {{item.protocol}} --dport {{item.port}} -j ACCEPT$"
+    line="-A INPUT -p {{item.protocol}} -m {{item.protocol}} --dport {{item.port}} -j ACCEPT"
+    insertafter="^:OUTPUT ACCEPT \[\d*:\d*\]$"
+  with_items: iptables
+  when: iptables_installed|success and iptables_exists.state != 'absent'
+  notify:
+    - restart iptables
+  sudo: yes
