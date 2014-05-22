@@ -1,5 +1,0 @@
-- yum: pkg=memcached state=installed
-  sudo: yes
-
-- service: name=memcached enabled=yes state=started
-  sudo: yes
