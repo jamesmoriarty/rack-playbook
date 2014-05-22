@@ -7,10 +7,13 @@
   sudo: yes
 
 - name: wait for runit supervision
-  wait_for: path=/etc/service/{{ application_name }}/supervise/control
+  wait_for: path=/etc/service/{{ application_name }}/supervise/{{ item }}
+  with_items:
+    - control
+    - ok
   sudo: yes
 
 - name: change service control directory owner
   file: path=/etc/service/{{ application_name }}/supervise owner={{ deploy_user }} group={{ deploy_user }}
-  sudo: yes
   ignore_errors: yes
+  sudo: yes
