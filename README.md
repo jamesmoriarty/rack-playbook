@@ -4,7 +4,7 @@ Ansible Rackup Playbook
 Description
 -----------
 
-Deploy compatable rack apps.
+Deploy compatible rack apps.
 
 Stack
 -----

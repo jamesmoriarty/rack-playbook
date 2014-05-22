@@ -1,13 +1,3 @@
-- name: check unicorn installed
-  shell: gem list unicorn -i | grep true
-  register: unicorn_installed
-  ignore_errors: yes
-
-- shell: gem install unicorn
-  when: unicorn_installed|failed
-  notify:
-    - rbenv rehash
-
 - name: create service directory
   file: path=/etc/service/{{ application_name }} recurse=yes state=directory owner={{ deploy_user }} group={{ deploy_user }}
   sudo: yes
@@ -17,5 +7,5 @@
   sudo: yes
 
 - name: change service control directory owner
-  file: path=/etc/service/{{ application_name }}/supervise recurse=yes owner={{ deploy_user }} group={{ deploy_user }}
+  file: path=/etc/service/{{ application_name }}/supervise owner={{ deploy_user }} group={{ deploy_user }}
   sudo: yes

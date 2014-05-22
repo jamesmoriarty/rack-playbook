@@ -3,7 +3,6 @@
 
 - file: path={{ item }} state=directory recurse=yes mode=755
   with_items:
-    - "/home/{{ deploy_user }}"
     - "{{ deploy_root }}"
     - "{{ deploy_releases_path }}"
     - "{{ deploy_shared_path }}"
