@@ -10,10 +10,9 @@
   wait_for: path=/etc/service/{{ application_name }}/supervise/{{ item }}
   with_items:
     - control
-    - ok
   sudo: yes
 
 - name: change service control directory owner
-  file: path=/etc/service/{{ application_name }}/supervise owner={{ deploy_user }} group={{ deploy_user }}
+  file: path=/etc/service/{{ application_name }}/supervise recurse=yes owner={{ deploy_user }} group={{ deploy_user }}
   ignore_errors: yes
   sudo: yes
