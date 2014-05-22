@@ -3,10 +3,6 @@
   roles:
     - deploy
   vars:
-    ssl_cert: no
-
-    ruby_version:   2.0.0-p353
-
     packages:
       - fail2ban
       - git
@@ -17,7 +13,10 @@
     iptables:
       - { protocol: tcp, port: 22 }
       - { protocol: tcp, port: 80 }
-      - { protocol: tcp, port: 443 }
+
+    ssl_cert:       no
+
+    ruby_version:   2.0.0-p353
 
     deploy_version: master
     deploy_repo:    https://github.com/jamesmoriarty/rackup.git
