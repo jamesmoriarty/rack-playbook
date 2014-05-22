@@ -1,4 +1,0 @@
-- name: restart postgresql
-  service: name=postgresql-9.3 state=restarted
-  sudo: yes
-
