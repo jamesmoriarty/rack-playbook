@@ -1,6 +1,8 @@
 ---
+application_name:             "app"
+
 deploy_user:                  "{{ ansible_ssh_user }}"
-deploy_root:                  "/home/{{ deploy_user }}/app"
+deploy_root:                  "~/{{ application_name }}"
 deploy_releases_path:         "{{ deploy_root }}/releases"
 deploy_current_release_path:  "{{ deploy_root }}/current"
 deploy_shared_path:           "{{ deploy_root }}/shared"
