@@ -1,31 +1,31 @@
-- name: rbenv | check ruby ruby_version installed
+- name: check ruby ruby_version installed
   shell: rbenv versions | grep {{ruby_version}}
   register: ruby_installed
   ignore_errors: yes
 
-- name: rbenv | create temporary directory
+- name: create temporary directory
   command: mktemp -d
   register: tempdir
   when: ruby_installed|failed
 
-- name: rbenv | clone ruby-build repo
+- name: clone ruby-build repo
   git: depth=1 repo=git://github.com/sstephenson/ruby-build.git dest={{tempdir.stdout}}/ruby-build
   when: ruby_installed|failed
 
-- name: rbenv | install ruby-build
+- name: install ruby-build
   command: ./install.sh chdir={{tempdir.stdout}}/ruby-build
   sudo: yes
   when: ruby_installed|failed
 
-- name: rbenv | remove temporary directory
+- name: remove temporary directory
   file: path={{tempdir.stdout}} state=absent
   when: ruby_installed|failed
 
-- name: rbenv | install ruby ruby_version
+- name: install ruby ruby_version
   shell: rbenv install {{ruby_version}}
   when: ruby_installed|failed
 
-- name: rbenv | set global ruby {{ruby_version}}
+- name: set global ruby {{ruby_version}}
   shell: rbenv global {{ruby_version}}
   notify:
     - rbenv rehash
