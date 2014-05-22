@@ -8,19 +8,19 @@
     - "{{ deploy_shared_path }}"
 
 - file: path="{{ deploy_releases_path }}/{{ timestamp.stdout }}" state=directory mode=701
-  register: deploy_release_path
+  register: deploy_release
 
-- git: repo={{ deploy_repo }} version={{ deploy_version }} dest={{deploy_release_path.path }} update=yes depth=1
+- git: repo={{ deploy_repo }} version={{ deploy_version }} dest={{deploy_release.path }} update=yes depth=1
 
-- template: src=unicorn.conf.rb dest="{{ deploy_release_path.path }}/unicorn.conf.rb"
+- template: src=unicorn.conf.rb dest="{{ deploy_release.path }}/unicorn.conf.rb"
 
-- shell: chdir={{ deploy_release_path.path }} {{ item }}
+- shell: chdir={{ deploy_release.path }} {{ item }}
   with_items: deploy_cmds
   environment: env
   notify:
     - rbenv rehash
 
-- file: path={{ deploy_current_release_path }} src={{ deploy_release_path.path }} state=link
+- file: path={{ deploy_current_release_path }} src={{ deploy_release.path }} state=link
   environment: env
   notify:
     - up unicorn
