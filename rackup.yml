@@ -1,7 +1,6 @@
 - hosts: all
   sudo: no
   roles:
-    - common
     - deploy
   vars:
     ssl_cert: no

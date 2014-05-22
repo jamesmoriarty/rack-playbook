@@ -6,6 +6,11 @@
   template: src=runit/run dest=/etc/service/{{ application_name }}/run mode=0755 owner={{ deploy_user }} group={{ deploy_user }}
   sudo: yes
 
+- name: wait for runit supervision
+  wait_for: path=/etc/service/{{ application_name }}/supervise/lock
+  sudo: yes
+
 - name: change service control directory owner
   file: path=/etc/service/{{ application_name }}/supervise owner={{ deploy_user }} group={{ deploy_user }}
   sudo: yes
+  ignore_errors: yes
