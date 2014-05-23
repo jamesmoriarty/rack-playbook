@@ -23,8 +23,7 @@
 - file: path={{ deploy_current_release_path }} src={{ deploy_release.path }} state=link
   environment: env
   notify:
-    - up unicorn
-    - reload unicorn
+    - restart unicorn
 
 - name: copy {{ application_name }}.conf
   template: src=nginx/unicorn.conf dest=/etc/nginx/conf.d/{{ application_name }}.conf

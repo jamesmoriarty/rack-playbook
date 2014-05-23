@@ -1,11 +1,2 @@
-- name: up unicorn
-  command: /sbin/sv up {{ application_name }}
-
-- name: start unicorn
-  command: /sbin/sv start {{ application_name }}
-
-- name: reload unicorn
-  command: /sbin/sv hup {{ application_name }}
-
-- name: stop unicorn
-  command: /sbin/sv stop {{ application_name }}
+- name: restart unicorn
+  command: /sbin/sv restart {{ application_name }}
