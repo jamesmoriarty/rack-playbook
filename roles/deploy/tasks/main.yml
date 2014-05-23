@@ -12,7 +12,7 @@
 
 - git: repo={{ deploy_repo }} version={{ deploy_version }} dest={{deploy_release.path }} update=yes depth=1
 
-- template: src=unicorn.conf.rb dest="{{ deploy_release.path }}/unicorn.conf.rb"
+- template: src=unicorn/unicorn.conf.rb dest="{{ deploy_release.path }}/unicorn.conf.rb"
 
 - shell: chdir={{ deploy_release.path }} {{ item }}
   with_items: deploy_cmds
@@ -25,3 +25,9 @@
   notify:
     - up unicorn
     - reload unicorn
+
+- name: copy {{ application_name }}.conf
+  template: src=nginx/unicorn.conf dest=/etc/nginx/conf.d/{{ application_name }}.conf
+  notify:
+    - restart nginx
+  sudo: yes

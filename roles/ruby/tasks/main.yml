@@ -1,4 +1,4 @@
-- name: check ruby ruby_version installed
+- name: check ruby {{ruby_version}} installed
   shell: rbenv versions | grep {{ruby_version}}
   register: ruby_installed
   ignore_errors: yes
@@ -21,7 +21,7 @@
   file: path={{tempdir.stdout}} state=absent
   when: ruby_installed|failed
 
-- name: install ruby ruby_version
+- name: install ruby {{ruby_version}}
   shell: rbenv install {{ruby_version}}
   when: ruby_installed|failed
 

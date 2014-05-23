@@ -26,11 +26,5 @@
     - restart nginx
   sudo: yes
 
-- name: copy {{ application_name }}.conf
-  template: src=unicorn.conf dest=/etc/nginx/conf.d/{{ application_name }}.conf
-  notify:
-    - restart nginx
-  sudo: yes
-
 - service: name=nginx enabled=yes state=started
   sudo: yes
